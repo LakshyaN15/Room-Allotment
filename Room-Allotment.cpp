@@ -2,19 +2,20 @@
 #include <vector>
 #include<limits>
 #include <unordered_map>
+using namespace std;
 
 class Room {
 public:
-    std::string roomNumber;
-    std::string host;
-    std::string startTime;
-    std::string endTime;
-    std::unordered_map<int, std::string> chairBookings;
+    string roomNumber;
+    string host;
+    string startTime;
+    string endTime;
+    unordered_map<int, string> chairBookings;
 
-    Room(const std::string& roomNumber, const std::string& host, const std::string& startTime, const std::string& endTime)
+    Room(const string& roomNumber, const string& host, const string& startTime, const string& endTime)
         : roomNumber(roomNumber), host(host), startTime(startTime), endTime(endTime) {}
 
-    void ReserveChair(int chairNumber, const std::string& travelerName) {
+    void ReserveChair(int chairNumber, const string& travelerName) {
         chairBookings[chairNumber] = travelerName;
     }
 
@@ -35,29 +36,29 @@ public:
     }
 
     void Display() const {
-        std::cout << "Room Number: " << roomNumber << "\n"
+        cout << "Room Number: " << roomNumber << "\n"
                   << "Host: " << host << "\n"
                   << "Start Time: " << startTime << "\n"
                   << "End Time: " << endTime << "\n"
                   << "Chair Bookings:\n";
         for (const auto& booking : chairBookings) {
-            std::cout << "Chair " << booking.first << ": " << booking.second << "\n";
+            cout << "Chair " << booking.first << ": " << booking.second << "\n";
         }
-        std::cout << "-----------------------------------\n";
+        cout << "-----------------------------------\n";
     }
 };
 
 class RoomBookingSystem {
 private:
-    std::vector<Room> rooms;
+    vector<Room> rooms;
 
 public:
-    void AddRoom(const std::string& roomNumber, const std::string& host, const std::string& startTime, const std::string& endTime) {
+    void AddRoom(const string& roomNumber, const string& host, const string& startTime, const string& endTime) {
         Room room(roomNumber, host, startTime, endTime);
         rooms.push_back(room);
     }
 
-    Room* FindRoom(const std::string& roomNumber) {
+    Room* FindRoom(const string& roomNumber) {
         for (auto& room : rooms) {
             if (room.roomNumber == roomNumber) {
                 return &room;
@@ -66,40 +67,40 @@ public:
         return nullptr;
     }
 
-    void BookRoom(const std::string& roomNumber, const std::string& travelerName, int chairNumber) {
+    void BookRoom(const string& roomNumber, const string& travelerName, int chairNumber) {
         Room* room = FindRoom(roomNumber);
         if (room) {
             if (room->IsChairAvailable(chairNumber)) {
                 room->ReserveChair(chairNumber, travelerName);
-                std::cout << "Chair " << chairNumber << " has been booked for " << travelerName << "\n";
+                cout << "Chair " << chairNumber << " has been booked for " << travelerName << "\n";
             } else {
-                std::cout << "The chair " << chairNumber << " is already reserved\n";
+                cout << "The chair " << chairNumber << " is already reserved\n";
             }
         } else {
-            std::cout << "Room " << roomNumber << " not found\n";
+            cout << "Room " << roomNumber << " not found\n";
         }
     }
 
-    void ReleaseRoom(const std::string& roomNumber, int chairNumber) {
+    void ReleaseRoom(const string& roomNumber, int chairNumber) {
         Room* room = FindRoom(roomNumber);
         if (room) {
             if (!room->IsChairAvailable(chairNumber)) {
                 room->ReleaseChair(chairNumber);
-                std::cout << "Chair " << chairNumber << " has been released\n";
+                cout << "Chair " << chairNumber << " has been released\n";
             } else {
-                std::cout << "The chair " << chairNumber << " is not reserved\n";
+                cout << "The chair " << chairNumber << " is not reserved\n";
             }
         } else {
-            std::cout << "Room " << roomNumber << " not found\n";
+            cout << "Room " << roomNumber << " not found\n";
         }
     }
 
-    void DisplayRoom(const std::string& roomNumber) {
+    void DisplayRoom(const string& roomNumber) {
         Room* room = FindRoom(roomNumber);
         if (room) {
             room->Display();
         } else {
-            std::cout << "Room " << roomNumber << " not found\n";
+            cout << "Room " << roomNumber << " not found\n";
         }
     }
 
@@ -114,69 +115,69 @@ int main() {
     RoomBookingSystem bookingSystem;
 
     while (true) {
-        std::cout << "---------- Room Booking System ----------\n";
-        std::cout << "1. Add Room\n";
-        std::cout << "2. Book Room\n";
-        std::cout << "3. Release Room\n";
-        std::cout << "4. Display Room\n";
-        std::cout << "5. Display All Rooms\n";
-        std::cout << "6. Exit\n";
-        std::cout << "-----------------------------------------\n";
-        std::cout << "Enter your choice: ";
+        cout << "---------- Room Booking System ----------\n";
+        cout << "1. Add Room\n";
+        cout << "2. Book Room\n";
+        cout << "3. Release Room\n";
+        cout << "4. Display Room\n";
+        cout << "5. Display All Rooms\n";
+        cout << "6. Exit\n";
+        cout << "-----------------------------------------\n";
+        cout << "Enter your choice: ";
 
         int choice;
-        std::cin >> choice;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        std::string roomNumber, host, startTime, endTime, travelerName;
+        string roomNumber, host, startTime, endTime, travelerName;
         int chairNumber;
 
         switch (choice) {
             case 1:
-                std::cout << "Enter Room Number: ";
-                std::getline(std::cin, roomNumber);
+                cout << "Enter Room Number: ";
+                getline(cin, roomNumber);
 
-                std::cout << "Enter Host: ";
-                std::getline(std::cin, host);
+                cout << "Enter Host: ";
+                getline(cin, host);
 
-                std::cout << "Enter Start Time: ";
-                std::getline(std::cin, startTime);
+                cout << "Enter Start Time: ";
+                getline(cin, startTime);
 
-                std::cout << "Enter End Time: ";
-                std::getline(std::cin, endTime);
+                cout << "Enter End Time: ";
+                getline(cin, endTime);
 
                 bookingSystem.AddRoom(roomNumber, host, startTime, endTime);
-                std::cout << "Room " << roomNumber << " added successfully\n";
+                cout << "Room " << roomNumber << " added successfully\n";
                 break;
 
             case 2:
-                std::cout << "Enter Room Number: ";
-                std::getline(std::cin, roomNumber);
+                cout << "Enter Room Number: ";
+                getline(cin, roomNumber);
 
-                std::cout << "Enter Traveler Name: ";
-                std::getline(std::cin, travelerName);
+                cout << "Enter Traveler Name: ";
+                getline(cin, travelerName);
 
-                std::cout << "Enter Chair Number: ";
-                std::cin >> chairNumber;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Enter Chair Number: ";
+                cin >> chairNumber;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
                 bookingSystem.BookRoom(roomNumber, travelerName, chairNumber);
                 break;
 
             case 3:
-                std::cout << "Enter Room Number: ";
-                std::getline(std::cin, roomNumber);
+                cout << "Enter Room Number: ";
+                getline(cin, roomNumber);
 
-                std::cout << "Enter Chair Number: ";
-                std::cin >> chairNumber;
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Enter Chair Number: ";
+                cin >> chairNumber;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
                 bookingSystem.ReleaseRoom(roomNumber, chairNumber);
                 break;
 
             case 4:
-                std::cout << "Enter Room Number: ";
-                std::getline(std::cin, roomNumber);
+                cout << "Enter Room Number: ";
+                getline(cin, roomNumber);
 
                 bookingSystem.DisplayRoom(roomNumber);
                 break;
@@ -189,10 +190,10 @@ int main() {
                 return 0;
 
             default:
-                std::cout << "Invalid choice. Please try again.\n";
+                cout << "Invalid choice. Please try again.\n";
         }
 
-        std::cout << "\n";
+        cout << "\n";
     }
 }
 
